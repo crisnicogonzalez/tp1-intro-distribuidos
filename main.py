@@ -1,7 +1,7 @@
 import argparse
 
 
-parser = argparse.ArgumentParser(description='Process some integers.')
+parser = argparse.ArgumentParser(description='TP1 - Introducción Distribuidos 75.43')
 
 parser.allow_abbrev = False
 
