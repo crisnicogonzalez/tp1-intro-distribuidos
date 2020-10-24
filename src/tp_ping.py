@@ -1,9 +1,10 @@
 import argparse
 import socket
-from constants import CHUNK_SIZE
+from constants import STOP
 from reverse_ping import reverse_ping
 from direct_ping import direct_ping
 from proxy_ping import proxy_ping
+from socket_client import send_msg
 
 
 def parse_arguments():
@@ -50,6 +51,9 @@ def main():
 
     elif args.proxy:
         proxy_ping(soc, count)
+
+    send_msg(soc, STOP)
+
 
     # msg = "PING"
     #

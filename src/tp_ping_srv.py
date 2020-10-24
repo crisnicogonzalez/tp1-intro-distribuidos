@@ -1,6 +1,6 @@
 import argparse
 import socket
-from constants import CHUNK_SIZE, PING, REVERSE
+from constants import CHUNK_SIZE, PING, REVERSE, STOP
 from reverse_ping_srv import reverse_ping_srv
 from direct_ping_srv import direct_ping_srv
 from proxy_ping_srv import proxy_ping_srv
@@ -32,23 +32,32 @@ def main():
 
         print("Accepted connection from {}".format(addr))
 
-        msj = str(conn.recv(CHUNK_SIZE).decode())
+        connection_is_alive = True
 
-        splited_msg = msj.split("-")
+        while connection_is_alive:
 
-        option = splited_msg[0]
+            msj = str(conn.recv(CHUNK_SIZE).decode())
 
-        if len(splited_msg) == 2:
-            counts = int(splited_msg[1])
+            splited_msg = msj.split("-")
 
-        if option == PING:
-            direct_ping_srv(conn)
+            option = splited_msg[0]
 
-        elif option == REVERSE:
-            reverse_ping_srv(conn, addr, counts)
+            # Reverse case
+            # Proxy case
+            if len(splited_msg) == 2:
+                counts = int(splited_msg[1])
 
-        # elif option == PROXY:
-        #    proxy_ping_srv(conn,addr,counts)
+                if option == REVERSE:
+                    reverse_ping_srv(conn, addr, counts)
+            else:
+                # ping case
+                # stop case
+                if option == PING:
+                    direct_ping_srv(conn)
+
+                elif option == STOP:
+                    connection_is_alive = False
+
 
         print("Connection with client finished")
 
