@@ -5,6 +5,7 @@ from reverse_ping import reverse_ping
 from direct_ping import direct_ping
 from proxy_ping import proxy_ping
 
+
 def parse_arguments():
 
     parser = argparse.ArgumentParser(description='TP1 - Introducción Distribuidos 75.43 - Client')
@@ -15,7 +16,7 @@ def parse_arguments():
     verbose_group.add_argument("-v", "--verbose", action="store_true", help="increase  output  verbosity", default=False)
     verbose_group.add_argument("-q", "--quiet", action="store_true", help="decrease  output  verbosity", default=False)
 
-    parser.add_argument("-s", "--server", nargs=1, default="127.0.0.1", help="server  IP  address", metavar='ADDR')
+    parser.add_argument("-s", "--server", nargs=1, default="127.0.0.1:8080", help="server  IP  address", metavar='ADDR')
     parser.add_argument("-c", "--count", nargs=1, type=int, default=10, help="stop  after <count > replies")
 
     ping_type_group = parser.add_mutually_exclusive_group()
@@ -27,20 +28,18 @@ def parse_arguments():
 
     return parser.parse_args()
 
-    return parser.parse_args()
-
 
 def create_socket(host, port):
-    # server_address = (host, port)
-    # sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # sock.connect(server_address)
-    # return sock
-    return None
+    server_address = (host, port)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect(server_address)
+    return sock
 
 
 def main():
     args = parse_arguments()
-    soc = create_socket(args.server)
+    splited_ip = args.server.split(":")
+    soc = create_socket(splited_ip[0], splited_ip[1])
 
     if args.reverse:
         reverse_ping(soc)
