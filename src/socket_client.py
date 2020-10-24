@@ -15,6 +15,10 @@ def get_msg(socket):
     return socket.recv(CHUNK_SIZE).decode()
 
 
+def get_msg(socket, bytes_to_read):
+    return socket.recv(bytes_to_read).decode()
+
+
 def wait_pong_msg(socket):
     print("wait pong message")
     received_ping_msg = False
