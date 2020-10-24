@@ -33,7 +33,10 @@ def main():
 
         msj = str(conn.recv(CHUNK_SIZE).decode())
 
-        option, counts = msj.split("-")
+        splited_msg = msj.split("-")
+
+        option = splited_msg[0]
+        counts = int(splited_msg[1])
 
         if option == PING:
             direct_ping_srv(conn, addr, counts)

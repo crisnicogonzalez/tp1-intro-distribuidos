@@ -17,18 +17,23 @@ def build_msg(count):
 
 
 def wait_ping_msg(socket):
+    print("wait ping msg")
     received_ping_msg = False
     while not received_ping_msg:
         msg = get_msg(socket)
-        received_ping_msg = msg is PING
+        print("msg -> {}".format(msg))
+        received_ping_msg = msg == PING
+        print("received_ping_msg", received_ping_msg)
 
 
 def send_pong_msg(socket):
+    print("send pong msg")
     send_msg(socket, PONG)
 
 
 def get_rtt_measure(socket):
-    return int(get_msg(socket))
+    print("get rtt measure")
+    return get_msg(socket)
 
 
 def reverse_ping(socket, counts):
