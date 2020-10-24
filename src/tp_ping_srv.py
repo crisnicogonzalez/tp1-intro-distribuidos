@@ -36,10 +36,12 @@ def main():
         splited_msg = msj.split("-")
 
         option = splited_msg[0]
-        counts = int(splited_msg[1])
+
+        if len(splited_msg) == 2:
+            counts = int(splited_msg[1])
 
         if option == PING:
-            direct_ping_srv(conn, addr, counts)
+            direct_ping_srv(conn)
 
         elif option == REVERSE:
             reverse_ping_srv(conn, addr, counts)

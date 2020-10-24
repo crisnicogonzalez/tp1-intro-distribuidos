@@ -33,6 +33,7 @@ def create_socket(host, port):
     server_address = (host, port)
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect(server_address)
+    # sock.settimeout(3)
     return sock
 
 
