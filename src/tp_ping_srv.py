@@ -1,6 +1,9 @@
 import argparse
 import socket
 from constants import CHUNK_SIZE
+from reverse_ping_srv import reverse_ping_srv
+from direct_ping_srv import direct_ping_srv
+from proxy_ping_srv import proxy_ping_srv
 
 
 def parse_arguments():
@@ -28,14 +31,18 @@ def main():
 
         print("Accepted connection from {}".format(addr))
 
-        bytes_received = 0
-        data = str(conn.recv(CHUNK_SIZE).decode())
-        bytes_received += len(data)
+        msj = str(conn.recv(CHUNK_SIZE).decode())
 
-        print("Received msg {}".format(data))
+        option, counts = msj.split("-")
 
-        # Send number of bytes received
-        conn.send(str(bytes_received).encode())
+        if option == PING:
+            direct_ping_srv(conn,addr,counts)
+
+        elif option == REVERSE:
+            reverse_ping_srv(conn,addr,counts)
+
+        # elif option == PROXY:
+        #    proxy_ping_srv(conn,addr,counts)
 
     sock.close()
 
