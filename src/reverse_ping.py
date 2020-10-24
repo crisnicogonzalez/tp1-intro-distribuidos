@@ -42,9 +42,13 @@ def reverse_ping(socket, counts):
     msg = build_msg(counts)
     send_msg(socket, msg)
     for count in range(counts):
-        wait_ping_msg(socket)
-        send_pong_msg(socket)
-        measure = get_rtt_measure(socket)
-        print("measure -> {}".format(measure))
-        measures.append(measure)
+        try:
+            wait_ping_msg(socket)
+            send_pong_msg(socket)
+            measure = get_rtt_measure(socket)
+            print("measure -> {}".format(measure))
+            measures.append((True, measure))
+        except Exception as e:
+            print("exception handled", e)
+            measures.append((False, None))
     return measures
