@@ -39,16 +39,16 @@ def create_socket(host, port):
 def main():
     args = parse_arguments()
     splited_ip = args.server.split(":")
-    soc = create_socket(splited_ip[0], splited_ip[1])
-    counts = args.counts
+    soc = create_socket(splited_ip[0], int(splited_ip[1]))
+    count = args.count
     if args.reverse:
-        reverse_ping(soc, counts)
+        reverse_ping(soc, count)
 
     elif args.ping:
-        direct_ping(soc, counts)
+        direct_ping(soc, count)
 
     elif args.proxy:
-        proxy_ping(soc, counts)
+        proxy_ping(soc, count)
 
     # msg = "PING"
     #
