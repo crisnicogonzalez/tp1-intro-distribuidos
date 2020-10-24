@@ -1,7 +1,12 @@
 CHUNK_SIZE = 1024
-PING = "ping"
-PONG = "pong"
-REVERSE = "reverse"
-DIRECT = "direct"
-PROXY = "proxy"
-STOP = "stop"
+
+PING = "1"
+PONG = "2"
+REVERSE = "3"
+PROXY = "4"
+STOP = "5"
+COUNT_SIZE = 10
+PROTOCOL_SIZE = 1
+IP_SIZE = 12
+PORT_SIZE = 5
+MSG_SIZE = 32
