@@ -45,5 +45,6 @@ def reverse_ping(socket, counts):
         wait_ping_msg(socket)
         send_pong_msg(socket)
         measure = get_rtt_measure(socket)
+        print("measure -> {}".format(measure))
         measures.append(measure)
     return measures
