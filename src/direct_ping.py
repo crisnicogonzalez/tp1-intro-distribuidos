@@ -1,2 +1,2 @@
-def direct_ping(socket):
+def direct_ping(socket, counts):
     print("direct ping")

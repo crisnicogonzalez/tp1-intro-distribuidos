@@ -1,3 +1,3 @@
 
-def reverse_ping(socket):
+def reverse_ping(socket, counts):
     print("reverse ping")
