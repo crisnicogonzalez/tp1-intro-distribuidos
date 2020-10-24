@@ -19,6 +19,7 @@ def main():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind(address)
     sock.listen(1)
+    print("server up!!!")
 
     while True:
         conn, addr = sock.accept()
