@@ -1,9 +1,7 @@
-from constants import CHUNK_SIZE
+from constants import CHUNK_SIZE, REVERSE, PING, PONG
+
 
 PROTOCOL_FORMAT = "{}-{}"
-PROTOCOL_MSG = "reverse"
-ping = "ping"
-pong = "pong"
 
 
 def send_msg(socket, msg):
@@ -15,18 +13,18 @@ def get_msg(socket):
 
 
 def build_msg(count):
-    return PROTOCOL_FORMAT.format(PROTOCOL_MSG, count)
+    return PROTOCOL_FORMAT.format(REVERSE, count)
 
 
 def wait_ping_msg(socket):
     received_ping_msg = False
     while not received_ping_msg:
         msg = get_msg(socket)
-        received_ping_msg = msg is ping
+        received_ping_msg = msg is PING
 
 
 def send_pong_msg(socket):
-    send_msg(socket, pong)
+    send_msg(socket, PONG)
 
 
 def get_rtt_measure(socket):

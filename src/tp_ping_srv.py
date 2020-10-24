@@ -1,6 +1,6 @@
 import argparse
 import socket
-from constants import CHUNK_SIZE
+from constants import CHUNK_SIZE, PING, REVERSE
 from reverse_ping_srv import reverse_ping_srv
 from direct_ping_srv import direct_ping_srv
 from proxy_ping_srv import proxy_ping_srv
@@ -36,10 +36,10 @@ def main():
         option, counts = msj.split("-")
 
         if option == PING:
-            direct_ping_srv(conn,addr,counts)
+            direct_ping_srv(conn, addr, counts)
 
         elif option == REVERSE:
-            reverse_ping_srv(conn,addr,counts)
+            reverse_ping_srv(conn, addr, counts)
 
         # elif option == PROXY:
         #    proxy_ping_srv(conn,addr,counts)
