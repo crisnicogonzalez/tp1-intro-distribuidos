@@ -6,13 +6,26 @@ from direct_ping import direct_ping
 from proxy_ping import proxy_ping
 
 def parse_arguments():
-    parser = argparse.ArgumentParser()
 
-    parser.add_argument("-H", "--host", default="127.0.0.1")
-    parser.add_argument("-P", "--port", type=int, default="8080")
-    parser.add_argument("-r", "--reverse", help="reverse ping", action="store_true")
-    parser.add_argument("-p", "--ping", help="direct ping", action="store_true")
-    parser.add_argument("-x", "--proxy", help="proxy pin", action="store_true")
+    parser = argparse.ArgumentParser(description='TP1 - Introducción Distribuidos 75.43 - Client')
+
+    parser.allow_abbrev = False
+
+    verbose_group = parser.add_mutually_exclusive_group()
+    verbose_group.add_argument("-v", "--verbose", action="store_true", help="increase  output  verbosity", default=False)
+    verbose_group.add_argument("-q", "--quiet", action="store_true", help="decrease  output  verbosity", default=False)
+
+    parser.add_argument("-s", "--server", nargs=1, default="127.0.0.1", help="server  IP  address", metavar='ADDR')
+    parser.add_argument("-c", "--count", nargs=1, type=int, default=10, help="stop  after <count > replies")
+
+    ping_type_group = parser.add_mutually_exclusive_group()
+    ping_type_group.add_argument("-p", "--ping", action="store_true", help="direct  ping", default=True)
+    ping_type_group.add_argument("-r", "--reverse", action="store_true", help="reverse  ping", default=False)
+    ping_type_group.add_argument("-x", "--proxy", action="store_true", help="proxy  ping", default=False)
+
+    parser.add_argument("-d", "--dest", nargs=1, help="destination  IP  address", metavar='ADDR:PORT', default=None)
+
+    return parser.parse_args()
 
     return parser.parse_args()
 
@@ -27,7 +40,7 @@ def create_socket(host, port):
 
 def main():
     args = parse_arguments()
-    soc = create_socket(args.host, args.port)
+    soc = create_socket(args.server)
 
     if args.reverse:
         reverse_ping(soc)
