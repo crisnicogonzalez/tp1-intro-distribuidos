@@ -25,8 +25,8 @@ def direct_ping(socket, counts):
         except:
             print("Error: connection terminate")
 
-        if ( PONG == pong ):
-            rtt = (rtt_end - rtt_begin).microseconds() * 1000
+        if ( pong == PONG ):
+            rtt = (rtt_end - rtt_begin).total_seconds() / 1000
             rtts.append(rtt)
             print("{} bytes  from  157.92.49.38:  seq={} time ={} ms".format(len(pong),seq,rtt))
 

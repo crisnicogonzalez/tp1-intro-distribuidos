@@ -5,14 +5,11 @@ from constants import STOP
 
 def direct_ping_srv(conn):
 
-    while True:
+    print("ping message received successfully")
 
-        print("waiting for ping message...")
+    ping = PING
 
-        # recieve "ping" message
-        ping = conn.recv(CHUNK_SIZE).decode()
-
-        print(ping)
+    while ping != STOP:
 
         if ( ping == PING ):
             print("ping message received successfully")
@@ -22,8 +19,10 @@ def direct_ping_srv(conn):
             print("sending pong response")
             conn.send(msj.encode())
 
-        elif (ping == STOP):
-            print("stop message received successfully")
-            break
         else:
             print("ping message received unsuccessfully")
+
+        # recieve "ping" message
+        ping = conn.recv(CHUNK_SIZE).decode()
+
+    print("stop message received successfully")

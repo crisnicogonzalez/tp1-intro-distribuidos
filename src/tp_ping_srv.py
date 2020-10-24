@@ -24,6 +24,7 @@ def main():
     sock.listen(1)
     print("server up!!!")
 
+
     while True:
         conn, addr = sock.accept()
         if not conn:
@@ -48,6 +49,8 @@ def main():
 
         # elif option == PROXY:
         #    proxy_ping_srv(conn,addr,counts)
+
+        print("Connection with client finished")
 
     sock.close()
 
