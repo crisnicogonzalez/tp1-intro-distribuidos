@@ -16,15 +16,15 @@ def parse_arguments():
     verbose_group.add_argument("-v", "--verbose", action="store_true", help="increase  output  verbosity", default=False)
     verbose_group.add_argument("-q", "--quiet", action="store_true", help="decrease  output  verbosity", default=False)
 
-    parser.add_argument("-s", "--server", nargs=1, default="127.0.0.1:8080", help="server  IP  address", metavar='ADDR')
-    parser.add_argument("-c", "--count", nargs=1, type=int, default=10, help="stop  after <count > replies")
+    parser.add_argument("-s", "--server", default="127.0.0.1:8080", help="server  IP  address", metavar='ADDR')
+    parser.add_argument("-c", "--count", type=int, default=10, help="stop  after <count > replies")
 
     ping_type_group = parser.add_mutually_exclusive_group()
     ping_type_group.add_argument("-p", "--ping", action="store_true", help="direct  ping", default=True)
     ping_type_group.add_argument("-r", "--reverse", action="store_true", help="reverse  ping", default=False)
     ping_type_group.add_argument("-x", "--proxy", action="store_true", help="proxy  ping", default=False)
 
-    parser.add_argument("-d", "--dest", nargs=1, help="destination  IP  address", metavar='ADDR:PORT', default=None)
+    parser.add_argument("-d", "--dest", help="destination  IP  address", metavar='ADDR:PORT', default=None)
 
     return parser.parse_args()
 
