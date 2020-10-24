@@ -1,9 +1,10 @@
 import argparse
 import socket
-from constants import CHUNK_SIZE, PING, REVERSE, STOP
+from constants import CHUNK_SIZE, PING, REVERSE, STOP, PROXY
 from reverse_ping_srv import reverse_ping_srv
 from direct_ping_srv import direct_ping_srv
 from proxy_ping_srv import proxy_ping_srv
+from  payload_builder import decode_message
 
 
 def parse_arguments():
@@ -24,7 +25,6 @@ def main():
     sock.listen(1)
     print("server up!!!")
 
-
     while True:
         conn, addr = sock.accept()
         if not conn:
@@ -38,25 +38,22 @@ def main():
 
             msj = str(conn.recv(CHUNK_SIZE).decode())
 
-            splited_msg = msj.split("-")
-
-            option = splited_msg[0]
-
             # Reverse case
             # Proxy case
-            if len(splited_msg) == 2:
-                counts = int(splited_msg[1])
 
-                if option == REVERSE:
-                    reverse_ping_srv(conn, addr, counts)
-            else:
-                # ping case
-                # stop case
-                if option == PING:
-                    direct_ping_srv(conn)
+            msj_decoded = decode_message(msj)
 
-                elif option == STOP:
-                    connection_is_alive = False
+            if msj_decoded[0] == PING:
+                direct_ping_srv(conn)
+
+            elif msj_decoded[0] == REVERSE:
+                reverse_ping_srv(conn, msj_decoded[1])
+
+            elif msj_decoded[0] == PROXY:
+                proxy_ping_srv(conn, msj_decoded[1], msj_decoded[2], msj_decoded[3])
+
+            # else:
+            #    connection_is_alive = False
 
 
         print("Connection with client finished")
