@@ -1,16 +1,24 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import argparse
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+parser = argparse.ArgumentParser(description='Process some integers.')
 
+parser.allow_abbrev = False
+
+parser.add_argument("-v", "--verbose", help="increase output verbosity", metavar='')
+parser.add_argument("-q", "--quiet", help="decrease output verbosity", metavar='')
+parser.add_argument("-s", "--server", help="server IP address", metavar='')
+parser.add_argument("-c", "--count", help="stop after < count > replies", metavar='')
+parser.add_argument("-p", "--ping", action="store_true", help="direct ping")
+parser.add_argument("-r", "--reverse", help="reverse ping", metavar='')
+parser.add_argument("-d", "--dest", help="destination IP address", metavar='')
+
+args = parser.parse_args()
+print(args.count)
+print(args.server)
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    print('PyCharm')
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
