@@ -54,7 +54,6 @@ def main():
 
     send_msg(soc, STOP)
 
-
     # msg = "PING"
     #
     # print("Sending {} bytes from {}".format(4, msg))
