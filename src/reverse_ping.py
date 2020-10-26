@@ -2,19 +2,12 @@ from constants import CHUNK_SIZE, REVERSE, PING, PONG
 from payload_builder import build_reverse_msg, build_pong_msg
 
 
-PROTOCOL_FORMAT = "{}-{}"
-
-
 def send_msg(socket, msg):
     socket.send(msg.encode())
 
 
 def get_msg(socket):
     return socket.recv(CHUNK_SIZE).decode()
-
-
-#def build_msg(count):
-#    return PROTOCOL_FORMAT.format(REVERSE, count)
 
 
 def wait_ping_msg(socket):
