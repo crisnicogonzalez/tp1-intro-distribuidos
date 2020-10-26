@@ -40,27 +40,30 @@ def build_proxy_msg(counts, ip, port):
 def build_stop_connection_msg():
     return fill_with_x(STOP)
 
+
 def decode_proxy_message(msj):
-    count = int(msj[1:11].replace('X',''))
-    ip_address = msj[11:27].replace('X','')
-    port = int(msj[27:].replace('X',''))
+    count = int(msj[1:11].replace('X', ''))
+    ip_address = msj[11:27].replace('X', '')
+    port = int(msj[27:].replace('X', ''))
     return [count, ip_address, port]
 
+
 def decode_reverse_message(msj):
-    count = int(msj[1:11].replace('X',''))
+    count = int(msj[1:11].replace('X', ''))
     return [count]
 
+
 def decode_message(msj):
-    if msj.startwith(PING):
+    if msj.startswith(PING):
         return [PING]
 
-    elif msj.startwith(PONG):
+    elif msj.startswith(PONG):
         return [PONG]
 
-    elif msj.startwith(REVERSE):
+    elif msj.startswith(REVERSE):
         return decode_reverse_message(msj)
 
-    elif msj.startwith(PROXY):
+    elif msj.startswith(PROXY):
         return decode_proxy_message(msj)
 
     else:

@@ -1,5 +1,7 @@
 import argparse
 import socket
+import statistics
+import time
 from constants import STOP
 from reverse_ping import reverse_ping
 from direct_ping import direct_ping
@@ -38,38 +40,39 @@ def create_socket(host, port):
     return sock
 
 
+def show_statistics(measures, total_time, count):
+    print("")
+    print("--- 127.0.0.1 ping statistics ---")
+    print("{} packets transmitted, {} received, 0% packet loss, time {} ms".format(count, len(measures), total_time))
+    print("rtt min / avg / max / mdev = {:.3f}/{:.3f}/{:.3f}/{:.3f} ms".format(min(measures), statistics.mean(measures), max(measures), statistics.stdev(measures)))
+
+
+def exec_protocol(args, soc, count):
+    if args.reverse:
+        return reverse_ping(soc, count)
+
+    elif args.ping:
+        return direct_ping(soc, count)
+
+    elif args.proxy:
+        return proxy_ping(soc, count)
+
+
 def main():
+    start = time.time()
     args = parse_arguments()
     splited_ip = args.server.split(":")
     soc = create_socket(splited_ip[0], int(splited_ip[1]))
     count = args.count
-    if args.reverse:
-        reverse_ping(soc, count)
 
-    elif args.ping:
-        direct_ping(soc, count)
-
-    elif args.proxy:
-        proxy_ping(soc, count)
-
+    measures = exec_protocol(args, soc, count)
     send_msg(soc, STOP)
 
-    # msg = "PING"
-    #
-    # print("Sending {} bytes from {}".format(4, msg))
-    #
-    # # Create socket and connect to server
-    # sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # sock.connect(server_address)
-    #
-    # sock.send(msg.encode())
-    #
-    # # Recv amount of data received by the server
-    # num_bytes = sock.recv(CHUNK_SIZE)
-    #
-    # print("Server received {} bytes".format(num_bytes.decode()))
-    #
-    # sock.close()
+    end = time.time()
+    diff = end - start
+    total = int(diff * 1000)
+
+    show_statistics(measures, total, count)
 
 
 if __name__ == "__main__":

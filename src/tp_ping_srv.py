@@ -4,7 +4,7 @@ from constants import CHUNK_SIZE, PING, REVERSE, STOP, PROXY
 from reverse_ping_srv import reverse_ping_srv
 from direct_ping_srv import direct_ping_srv
 from proxy_ping_srv import proxy_ping_srv
-from  payload_builder import decode_message
+from payload_builder import decode_message
 
 
 def parse_arguments():
@@ -37,7 +37,6 @@ def main():
         while connection_is_alive:
 
             msj = str(conn.recv(CHUNK_SIZE).decode())
-
             # Reverse case
             # Proxy case
 
@@ -52,9 +51,8 @@ def main():
             elif msj_decoded[0] == PROXY:
                 proxy_ping_srv(conn, msj_decoded[1], msj_decoded[2], msj_decoded[3])
 
-            # else:
-            #    connection_is_alive = False
-
+            else:
+                connection_is_alive = False
 
         print("Connection with client finished")
 

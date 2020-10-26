@@ -3,6 +3,7 @@ from constants import PING
 from constants import PONG
 from constants import STOP
 
+
 def direct_ping_srv(conn):
 
     print("ping message received successfully")
@@ -11,7 +12,7 @@ def direct_ping_srv(conn):
 
     while ping != STOP:
 
-        if ( ping == PING ):
+        if (ping == PING):
             print("ping message received successfully")
             msj = PONG
 
