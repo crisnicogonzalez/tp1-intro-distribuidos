@@ -1,5 +1,14 @@
-from constants import CHUNK_SIZE, PING, PONG
+from constants import MSG_SIZE, PING, PONG
+from payload_builder import build_ping_msg
 import time
+import socket
+
+def create_socket(host, port):
+    server_address = (host, port)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect(server_address)
+    sock.settimeout(3)
+    return sock
 
 
 def send_msg(socket, msg):
@@ -7,22 +16,25 @@ def send_msg(socket, msg):
 
 
 def send_ping_msg(socket):
-    send_msg(socket, PING)
+    send_msg(socket, build_ping_msg())
 
 
-def get_msg(socket):
-    return socket.recv(CHUNK_SIZE).decode()
+def recv_msg(socket):
+    try:
+        msg = socket.recv(MSG_SIZE).decode()
+        return msg
 
+    except Exception as e:
+        print('Error: message lost')
+        return ""
 
-# def get_msg(socket, bytes_to_read):
-#     return socket.recv(bytes_to_read).decode()
 
 
 def wait_pong_msg(socket):
     received_ping_msg = False
     while not received_ping_msg:
-        msg = get_msg(socket)
-        received_ping_msg = msg == PONG
+        msg = recv_msg(socket)
+        received_ping_msg = msg.startswith(PONG)
 
 
 # send ping message and wait pong message

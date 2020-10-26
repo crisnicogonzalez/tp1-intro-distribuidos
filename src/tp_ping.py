@@ -1,5 +1,4 @@
 import argparse
-import socket
 import statistics
 import time
 from constants import STOP
@@ -7,6 +6,8 @@ from reverse_ping import reverse_ping
 from direct_ping import direct_ping
 from proxy_ping import proxy_ping
 from socket_client import send_msg
+from socket_client import create_socket
+
 
 
 def parse_arguments():
@@ -32,18 +33,10 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def create_socket(host, port):
-    server_address = (host, port)
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.connect(server_address)
-    # sock.settimeout(3)
-    return sock
-
-
 def show_statistics(measures, total_time, count):
     print("")
     print("--- 127.0.0.1 ping statistics ---")
-    print("{} packets transmitted, {} received, 0% packet loss, time {} ms".format(count, len(measures), total_time))
+    print("{} packets transmitted, {} received, {}% packet loss, time {} ms".format(count, len(measures), (1 - len(measures)/count)*100, total_time))
     print("rtt min / avg / max / mdev = {:.3f}/{:.3f}/{:.3f}/{:.3f} ms".format(min(measures), statistics.mean(measures), max(measures), statistics.stdev(measures)))
 
 
@@ -51,11 +44,12 @@ def exec_protocol(args, soc, count):
     if args.reverse:
         return reverse_ping(soc, count)
 
+    elif args.proxy:
+        return proxy_ping(soc, count, args.dest)
+
     elif args.ping:
         return direct_ping(soc, count)
 
-    elif args.proxy:
-        return proxy_ping(soc, count)
 
 
 def main():

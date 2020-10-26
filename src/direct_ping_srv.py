@@ -1,29 +1,27 @@
-from constants import CHUNK_SIZE
-from constants import PING
-from constants import PONG
-from constants import STOP
-
+from payload_builder import  build_ping_msg, build_pong_msg
+from constants import STOP, PING, PONG, MSG_SIZE
 
 def direct_ping_srv(conn):
 
     print("ping message received successfully")
 
-    ping = PING
+    ping = build_ping_msg()
+    pong = build_pong_msg()
 
-    while ping != STOP:
+    while not ping.startswith(STOP):
 
-        if (ping == PING):
+        if ping.startswith(PING):
             print("ping message received successfully")
-            msj = PONG
 
             # send "pong" message
             print("sending pong response")
-            conn.send(msj.encode())
+            conn.send(pong.encode())
 
         else:
             print("ping message received unsuccessfully")
 
         # recieve "ping" message
-        ping = conn.recv(CHUNK_SIZE).decode()
+        ping = conn.recv(MSG_SIZE).decode()
 
     print("stop message received successfully")
+    print("direct ping finished")
