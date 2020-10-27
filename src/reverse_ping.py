@@ -1,4 +1,4 @@
-from constants import CHUNK_SIZE, REVERSE, PING, PONG
+from constants import MSG_SIZE, REVERSE, PING, PONG
 from payload_builder import build_reverse_msg, build_pong_msg
 
 
@@ -7,7 +7,7 @@ def send_msg(socket, msg):
 
 
 def get_msg(socket):
-    return socket.recv(CHUNK_SIZE).decode()
+    return socket.recv(MSG_SIZE).decode()
 
 
 def wait_ping_msg(socket):
