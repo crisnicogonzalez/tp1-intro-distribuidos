@@ -48,11 +48,30 @@ def get_ping_type(args):
         return "Direct Ping"
 
 
+def get_client_address(args, soc):
+    if args.reverse or args.proxy:
+        return "{}".format(args.server)
+    else:
+        return "{}:{}".format(soc.getsockname()[0], soc.getsockname()[1])
+
+
+def get_server_address(args, soc):
+    if args.reverse:
+        return "{}:{}".format(soc.getsockname()[0], soc.getsockname()[1])
+    elif args.proxy:
+        return "{}".format(args.dest)
+    elif args.ping:
+        return "{}".format(args.server)
+
+
 def show_initial_messages(args):
     print("TP-PING v0.1")
     print("Operation: {}".format(get_ping_type(args)))
-    print("Server Address: {}".format(args.server))
-    print("Client Address: {}".format(args.server))
+
+
+def show_address_messages(args, soc):
+    print("Server Address: {}".format(get_server_address(args, soc)))
+    print("Client Address: {}".format(get_client_address(args, soc)))
 
 
 def exec_protocol(args, soc, count):
@@ -73,6 +92,7 @@ def main():
 
     splited_ip = args.server.split(":")
     soc = create_socket(splited_ip[0], int(splited_ip[1]))
+    show_address_messages(args, soc)
     count = args.count
 
     measures = exec_protocol(args, soc, count)
