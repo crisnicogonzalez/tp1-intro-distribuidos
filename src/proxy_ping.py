@@ -1,9 +1,8 @@
 from payload_builder import build_proxy_msg
-from constants import MSG_SIZE, PONG
-from socket_client import recv_msg
+from socket_client import recv_msg, print_info_message, print_packet_loss_message
 
 
-def proxy_ping(socket, counts, dest):
+def proxy_ping(socket, counts, dest, quiet):
 
     dest_splitted = dest.split(":")
     ip_dest = dest_splitted[0]
@@ -13,16 +12,22 @@ def proxy_ping(socket, counts, dest):
     proxy_message = build_proxy_msg(counts, ip_dest, port_dest)
     socket.send(proxy_message.encode())
 
-    pong = recv_msg(socket)
+    # Expect a pong response that indicate that the server could connect with destination server
+    try:
+        pong = recv_msg(socket)
 
-    if not pong.startswith(PONG):
+    except:
         print("Error: destination server not found")
         socket.close()
         exit(1)
 
     for seq in range(1, counts + 1):
-        rtt_response = float(recv_msg(socket))
-        print("{} bytes from 127.0.0.1: seq={} time={:.3f} ms".format(str(MSG_SIZE), seq, rtt_response))
-        rtts.append(rtt_response)
+        try:
+            rtt_response = float(recv_msg(socket))
+            rtts.append(rtt_response)
+            print_info_message(seq, rtt_response, quiet)
+
+        except Exception as e:
+            print_packet_loss_message(seq, e, quiet)
 
     return rtts

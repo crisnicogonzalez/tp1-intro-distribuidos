@@ -27,7 +27,7 @@ def parse_arguments():
     ping_type_group.add_argument("-r", "--reverse", action="store_true", help="reverse  ping", default=False)
     ping_type_group.add_argument("-x", "--proxy", action="store_true", help="proxy  ping", default=False)
 
-    parser.add_argument("-d", "--dest", help="destination  IP  address", metavar='ADDR:PORT', default=None)
+    parser.add_argument("-d", "--dest", help="destination  IP  address", metavar='ADDR:PORT', default="127.0.0.2:8081")
 
     return parser.parse_args()
 
@@ -76,22 +76,23 @@ def show_address_messages(args, soc):
 
 def exec_protocol(args, soc, count):
     if args.reverse:
-        return reverse_ping(soc, count)
+        return reverse_ping(soc, count, args.quiet)
 
     elif args.proxy:
-        return proxy_ping(soc, count, args.dest)
+        return proxy_ping(soc, count, args.dest, args.quiet)
 
     elif args.ping:
-        return direct_ping(soc, count)
+        return direct_ping(soc, count, args.quiet)
 
 
 def main():
     start = time.time()
     args = parse_arguments()
-    show_initial_messages(args)
 
     splited_ip = args.server.split(":")
     soc = create_socket(splited_ip[0], int(splited_ip[1]))
+
+    show_initial_messages(args)
     show_address_messages(args, soc)
     count = args.count
 

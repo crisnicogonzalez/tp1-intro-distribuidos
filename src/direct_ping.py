@@ -1,9 +1,7 @@
 import time
-from socket_client import send_ping
-from constants import MSG_SIZE
+from socket_client import send_ping, print_info_message, print_packet_loss_message
 
-
-def direct_ping(socket, counts):
+def direct_ping(socket, counts, quiet):
 
     # return list of rtts
     rtts = []
@@ -12,10 +10,11 @@ def direct_ping(socket, counts):
         try:
             response = send_ping(socket)
             rtts.append(response)
-            print("{} bytes from 127.0.0.1: seq={} time={:.3f} ms".format(str(MSG_SIZE), seq, response))
+            print_info_message(seq, response, quiet)
+
         except Exception as e:
-            print("exception handled", e)
-            print("Error: packet incomplete, seq={}".format(seq))
+            print_packet_loss_message(seq, e, quiet)
+
         time.sleep(1)
 
     return rtts

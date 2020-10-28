@@ -12,11 +12,13 @@ def proxy_ping_srv(conn, count, ip_proxy, port_proxy):
         print("Error: Server not found. Proxy ping finished")
         return
 
+    print("proxy ping request received counts -> {}".format(count))
+
     response = build_pong_msg()
     conn.send(response.encode())
 
     for seq in range(1, count + 1):
-        rtt = direct_ping(proxy_conn, 1)
+        rtt = direct_ping(proxy_conn, 1, True)
         msj = str(rtt[0])
         conn.send(msj.encode())
 
