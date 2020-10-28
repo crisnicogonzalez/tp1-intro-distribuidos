@@ -1,6 +1,7 @@
-from payload_builder import build_proxy_msg, build_stop_connection_msg
+from payload_builder import build_proxy_msg
 from constants import MSG_SIZE, PONG
 from socket_client import recv_msg
+
 
 def proxy_ping(socket, counts, dest):
 
@@ -25,4 +26,3 @@ def proxy_ping(socket, counts, dest):
         rtts.append(rtt_response)
 
     return rtts
-

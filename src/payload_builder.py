@@ -68,4 +68,3 @@ def decode_message(msj):
 
     else:
         return [STOP]
-

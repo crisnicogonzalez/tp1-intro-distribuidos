@@ -1,7 +1,8 @@
-from constants import MSG_SIZE, PING, PONG
+from constants import MSG_SIZE, PONG
 from payload_builder import build_ping_msg
 import time
 import socket
+
 
 def create_socket(host, port):
     server_address = (host, port)
@@ -24,10 +25,9 @@ def recv_msg(socket):
         msg = socket.recv(MSG_SIZE).decode()
         return msg
 
-    except Exception as e:
+    except:
         print('Error: message lost')
         return ""
-
 
 
 def wait_pong_msg(socket):

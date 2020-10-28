@@ -9,7 +9,6 @@ from socket_client import send_msg
 from socket_client import create_socket
 
 
-
 def parse_arguments():
 
     parser = argparse.ArgumentParser(description='TP1 - Introducción Distribuidos 75.43 - Client')
@@ -40,6 +39,22 @@ def show_statistics(measures, total_time, count):
     print("rtt min / avg / max / mdev = {:.3f}/{:.3f}/{:.3f}/{:.3f} ms".format(min(measures), statistics.mean(measures), max(measures), statistics.stdev(measures)))
 
 
+def get_ping_type(args):
+    if args.reverse:
+        return "Reverse Ping"
+    elif args.proxy:
+        return "Proxy Ping"
+    elif args.ping:
+        return "Direct Ping"
+
+
+def show_initial_messages(args):
+    print("TP-PING v0.1")
+    print("Operation: {}".format(get_ping_type(args)))
+    print("Server Address: {}".format(args.server))
+    print("Client Address: {}".format(args.server))
+
+
 def exec_protocol(args, soc, count):
     if args.reverse:
         return reverse_ping(soc, count)
@@ -51,10 +66,11 @@ def exec_protocol(args, soc, count):
         return direct_ping(soc, count)
 
 
-
 def main():
     start = time.time()
     args = parse_arguments()
+    show_initial_messages(args)
+
     splited_ip = args.server.split(":")
     soc = create_socket(splited_ip[0], int(splited_ip[1]))
     count = args.count

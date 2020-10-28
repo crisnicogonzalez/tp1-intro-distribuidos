@@ -1,5 +1,6 @@
-from payload_builder import  build_ping_msg, build_pong_msg
-from constants import STOP, PING, PONG, MSG_SIZE
+from payload_builder import build_ping_msg, build_pong_msg
+from constants import STOP, PING, MSG_SIZE
+
 
 def direct_ping_srv(conn):
 
