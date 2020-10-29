@@ -7,6 +7,7 @@ import socket
 def create_socket(host, port):
     server_address = (host, port)
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    socket.timeout(TIMEOUT)
     try:
         sock.connect(server_address)
 
