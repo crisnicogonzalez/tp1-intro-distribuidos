@@ -27,7 +27,7 @@ def parse_arguments():
     ping_type_group.add_argument("-r", "--reverse", action="store_true", help="reverse  ping", default=False)
     ping_type_group.add_argument("-x", "--proxy", action="store_true", help="proxy  ping", default=False)
 
-    parser.add_argument("-d", "--dest", help="destination  IP  address", metavar='ADDR:PORT', default="127.0.0.2:8081")
+    parser.add_argument("-d", "--dest", help="destination  IP  address", metavar='ADDR:PORT', default=None)
 
     return parser.parse_args()
 
@@ -89,14 +89,23 @@ def exec_protocol(args, soc, count):
     elif args.ping:
         return direct_ping(soc, count, args.quiet)
 
+def check_args(args):
+    if args.count <= 0:
+        print("ping: bad number of packets to transmit")
+        exit(1)
+
+    elif args.proxy and args.dest is None:
+        print("Error: missing 1 required positional argument: 'dest'")
+        exit(1)
+
+    return
+
+
 
 def main():
     start = time.time()
     args = parse_arguments()
-
-    if args.count <= 0:
-        print("ping: bad number of packets to transmit")
-        exit(1)
+    check_args(args)
 
     splited_ip = args.server.split(":")
     soc = create_socket(splited_ip[0], int(splited_ip[1]))

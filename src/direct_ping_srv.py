@@ -1,9 +1,10 @@
 from payload_builder import build_ping_msg, build_pong_msg
 from constants import STOP, PING, MSG_SIZE
 
-def direct_ping_srv(conn):
+def direct_ping_srv(conn, verbose):
 
-    print("Direct ping request recieved")
+    if verbose:
+        print("Direct ping request recieved")
 
     ping = build_ping_msg()
     pong = build_pong_msg()
@@ -18,5 +19,5 @@ def direct_ping_srv(conn):
 
         except:
             break
-
-    print("direct ping finished")
+    if verbose:
+        print("direct ping finished")

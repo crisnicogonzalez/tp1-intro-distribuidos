@@ -44,13 +44,13 @@ def main():
             msj_decoded = decode_message(msj)
 
             if msj_decoded[0] == PING:
-                direct_ping_srv(conn)
+                direct_ping_srv(conn, verbose)
 
             elif msj_decoded[0] == REVERSE:
-                reverse_ping_srv(conn, int(msj_decoded[1]))
+                reverse_ping_srv(conn, int(msj_decoded[1]), verbose)
 
             elif msj_decoded[0] == PROXY:
-                proxy_ping_srv(conn, int(msj_decoded[1]), msj_decoded[2], int(msj_decoded[3]))
+                proxy_ping_srv(conn, int(msj_decoded[1]), msj_decoded[2], int(msj_decoded[3]), verbose)
 
             else:
                 connection_is_alive = False

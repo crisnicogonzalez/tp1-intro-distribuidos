@@ -3,7 +3,7 @@ from payload_builder import build_stop_connection_msg, build_pong_msg
 from direct_ping import direct_ping
 
 
-def proxy_ping_srv(conn, count, ip_proxy, port_proxy):
+def proxy_ping_srv(conn, count, ip_proxy, port_proxy, verbose):
 
     try:
         proxy_conn = create_socket(ip_proxy, port_proxy)
@@ -12,7 +12,8 @@ def proxy_ping_srv(conn, count, ip_proxy, port_proxy):
         print("Error: Server not found. Proxy ping finished")
         return
 
-    print("proxy ping request received counts -> {}".format(count))
+    if verbose:
+        print("proxy ping request received counts -> {}".format(count))
 
     response = build_pong_msg()
     conn.send(response.encode())
@@ -30,4 +31,5 @@ def proxy_ping_srv(conn, count, ip_proxy, port_proxy):
     proxy_conn.send(msj.encode())
     proxy_conn.close()
 
-    print("proxy ping finished")
+    if verbose:
+        print("proxy ping finished")
