@@ -19,6 +19,10 @@ def proxy_ping_srv(conn, count, ip_proxy, port_proxy):
 
     for seq in range(1, count + 1):
         rtt = direct_ping(proxy_conn, 1, True)
+
+        if len(rtt) == 0:
+            continue
+
         msj = str(rtt[0])
         conn.send(msj.encode())
 

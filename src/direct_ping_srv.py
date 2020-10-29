@@ -1,7 +1,6 @@
 from payload_builder import build_ping_msg, build_pong_msg
 from constants import STOP, PING, MSG_SIZE
 
-
 def direct_ping_srv(conn):
 
     print("Direct ping request recieved")
@@ -10,10 +9,14 @@ def direct_ping_srv(conn):
     pong = build_pong_msg()
 
     while not ping.startswith(STOP):
-        # send "pong" message
-        conn.send(pong.encode())
+        try:
+            # send "pong" message
+            conn.send(pong.encode())
 
-        # recieve "ping" message
-        ping = conn.recv(MSG_SIZE).decode()
+            # recieve "ping" message
+            ping = conn.recv(MSG_SIZE).decode()
+
+        except:
+            break
 
     print("direct ping finished")

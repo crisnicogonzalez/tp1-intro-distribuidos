@@ -36,6 +36,11 @@ def show_statistics(measures, total_time, count):
     print("")
     print("--- 127.0.0.1 ping statistics ---")
     print("{} packets transmitted, {} received, {}% packet loss, time {} ms".format(count, len(measures), (1 - len(measures)/count)*100, total_time))
+
+    if ( len(measures) == 0 ):
+        #All packets are lost, it doesn't show statistics:
+        exit(0)
+
     print("rtt min / avg / max / mdev = {:.3f}/{:.3f}/{:.3f}/{:.3f} ms".format(min(measures), statistics.mean(measures), max(measures),statistics.stdev(measures) if len(measures) > 1 else 0.00))
 
 
