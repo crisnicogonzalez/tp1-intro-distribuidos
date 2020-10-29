@@ -12,25 +12,28 @@ def parse_arguments():
 
     parser.add_argument("-H", "--host", default="127.0.0.1")
     parser.add_argument("-P", "--port", type=int, default="8080")
-
+    parser.add_argument("-v", "--verbose", action="store_true", help="increase  output  verbosity", default=False)
     return parser.parse_args()
 
 
 def main():
     args = parse_arguments()
     address = (args.host, args.port)
-
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind(address)
     sock.listen(1)
-    print("server up!!!")
+    print("Server up!!!")
+
+    verbose = args.verbose
 
     while True:
+        if verbose:
+            print("Wait connections")
         conn, addr = sock.accept()
         if not conn:
             break
-
-        print("Accepted connection from {}".format(addr))
+        if verbose:
+            print("Accepted connection from {}".format(addr))
 
         connection_is_alive = True
 
