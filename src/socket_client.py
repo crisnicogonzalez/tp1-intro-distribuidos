@@ -1,4 +1,4 @@
-from constants import MSG_SIZE, PONG
+from constants import MSG_SIZE, PONG, TIMEOUT
 from payload_builder import build_ping_msg
 import time
 import socket
@@ -7,6 +7,7 @@ import socket
 def create_socket(host, port):
     server_address = (host, port)
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.settimeout(TIMEOUT)
     try:
         sock.connect(server_address)
 
@@ -14,7 +15,6 @@ def create_socket(host, port):
         print("ping: server {} not found".format(host))
         exit(1)
 
-    sock.settimeout(3)
     return sock
 
 def print_info_message(seq, response, quiet):

@@ -6,6 +6,8 @@ def direct_ping(socket, counts, quiet):
     # return list of rtts
     rtts = []
 
+    print(socket.timeout)
+
     for seq in range(1, counts + 1):
         try:
             response = send_ping(socket)
