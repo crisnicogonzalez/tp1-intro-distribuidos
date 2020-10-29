@@ -1,6 +1,6 @@
 import argparse
 import socket
-from constants import PING, REVERSE, STOP, PROXY, MSG_SIZE
+from constants import PING, REVERSE, PROXY, MSG_SIZE
 from reverse_ping_srv import reverse_ping_srv
 from direct_ping_srv import direct_ping_srv
 from proxy_ping_srv import proxy_ping_srv
