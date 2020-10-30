@@ -44,7 +44,7 @@ def reverse_ping(socket, counts, quiet):
     for seq in range(1, counts + 1):
         try:
             wait_ping_msg(socket, seq, quiet)
-            send_pong_msg(socket, seq)
+            send_pong_msg(socket, seq, quiet)
             measure = float(get_rtt_measure(socket, seq))
             measures.append(measure)
             print_info_message(seq, measure, quiet)
