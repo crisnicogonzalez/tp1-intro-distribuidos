@@ -32,9 +32,18 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def show_statistics(measures, total_time, count):
+def get_server_address(args, soc):
+    if args.reverse:
+        return "{}:{}".format(soc.getsockname()[0], soc.getsockname()[1])
+    elif args.proxy:
+        return "{}".format(args.dest)
+    elif args.ping:
+        return "{}".format(args.server)
+
+
+def show_statistics(measures, total_time, count, args, soc):
     print("")
-    print("--- 127.0.0.1 ping statistics ---")
+    print("--- {} ping statistics ---".format(get_server_address(args, soc)))
     print("{} packets transmitted, {} received, {}% packet loss, time {} ms".format(count, len(measures), (1 - len(measures)/count)*100, total_time))
 
     # All packets are lost, it doesn't show statistics:
@@ -58,15 +67,6 @@ def get_client_address(args, soc):
         return "{}".format(args.server)
     else:
         return "{}:{}".format(soc.getsockname()[0], soc.getsockname()[1])
-
-
-def get_server_address(args, soc):
-    if args.reverse:
-        return "{}:{}".format(soc.getsockname()[0], soc.getsockname()[1])
-    elif args.proxy:
-        return "{}".format(args.dest)
-    elif args.ping:
-        return "{}".format(args.server)
 
 
 def show_initial_messages(args):
@@ -126,7 +126,7 @@ def main():
     diff = end - start
     total = int(diff * 1000)
 
-    show_statistics(measures, total, count)
+    show_statistics(measures, total, count, args, soc)
 
 
 if __name__ == "__main__":
