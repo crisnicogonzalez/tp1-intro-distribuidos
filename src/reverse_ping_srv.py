@@ -11,6 +11,7 @@ def reverse_ping_srv(socket_client, counts, verbose):
     if verbose:
         print("reverse proxy request received counts -> {}".format(counts))
 
+    socket_client.settimeout(TIMEOUT)
     for seq in range(1, counts + 1):
         try:
 
@@ -24,6 +25,8 @@ def reverse_ping_srv(socket_client, counts, verbose):
 
         except socket.timeout:
             continue
+
+    socket_client.settimeout(None)
 
     if verbose:
         print("reverse ping finished")

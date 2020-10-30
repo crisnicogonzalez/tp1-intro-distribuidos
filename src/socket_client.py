@@ -11,7 +11,7 @@ def create_socket(host, port):
     try:
         sock.connect(server_address)
 
-    except:
+    except Exception:
         print("ping: server {} not found".format(host))
         exit(1)
 

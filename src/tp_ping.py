@@ -81,13 +81,13 @@ def show_address_messages(args, soc):
 
 def exec_protocol(args, soc, count):
     if args.reverse:
-        return reverse_ping(soc, count, args.quiet)
+        return reverse_ping(soc, count, args.quiet, args.verbose)
 
     elif args.proxy:
-        return proxy_ping(soc, count, args.dest, args.quiet)
+        return proxy_ping(soc, count, args.dest, args.quiet, args.verbose)
 
     elif args.ping:
-        return direct_ping(soc, count, args.quiet)
+        return direct_ping(soc, count, args.quiet, args.verbose)
 
 
 def check_args(args):
@@ -116,7 +116,11 @@ def main():
 
     measures = exec_protocol(args, soc, count)
 
-    send_msg(soc, STOP)
+    try:
+        send_msg(soc, STOP)
+
+    except Exception:
+        pass
 
     end = time.time()
     diff = end - start

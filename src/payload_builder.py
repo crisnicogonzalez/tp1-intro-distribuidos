@@ -75,8 +75,6 @@ def decode_pong_message(msj):
 def decode_rtt_message(msj):
     seq = int(msj[1:11].replace('X', ''))
     rtt = msj[11:21].replace('X', '')
-    print(seq)
-    print(rtt)
     return [RTT, seq, rtt]
 
 

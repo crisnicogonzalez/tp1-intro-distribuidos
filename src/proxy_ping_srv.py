@@ -8,7 +8,7 @@ def proxy_ping_srv(conn, count, ip_proxy, port_proxy, verbose):
     try:
         proxy_conn = create_socket(ip_proxy, port_proxy)
 
-    except:
+    except Exception:
         print("Error: Server not found. Proxy ping finished")
         return
 
@@ -19,7 +19,7 @@ def proxy_ping_srv(conn, count, ip_proxy, port_proxy, verbose):
     conn.send(response.encode())
 
     for seq in range(1, count + 1):
-        rtt = direct_ping(proxy_conn, 1, True)
+        rtt = direct_ping(proxy_conn, 1, True, verbose)
 
         if len(rtt) == 0:
             continue
