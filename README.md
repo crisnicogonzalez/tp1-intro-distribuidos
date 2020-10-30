@@ -8,7 +8,7 @@
 
 * pip install -r requirements.txt -> instala todas las dependencias necesarias.
 
-**Scrips**
+**Scripts**
 * tp_ping.py : Se encarga de iniciar un client
 * tp_ping_srv.py: Se encarga de inicializar un servidor
 * constants.py: aqui se guardan las constantes que vamos a usar
