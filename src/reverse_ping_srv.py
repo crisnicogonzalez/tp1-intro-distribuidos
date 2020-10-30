@@ -14,7 +14,7 @@ def reverse_ping_srv(socket_client, counts, verbose):
     for seq in range(1, counts + 1):
         try:
 
-            measure_in_ms = send_ping(socket_client, seq)
+            measure_in_ms = send_ping(socket_client, seq, verbose)
             if verbose:
                 print("Sending rtt")
             print(measure_in_ms)
