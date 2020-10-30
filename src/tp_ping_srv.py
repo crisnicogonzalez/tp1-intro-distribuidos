@@ -5,6 +5,7 @@ from reverse_ping_srv import reverse_ping_srv
 from direct_ping_srv import direct_ping_srv
 from proxy_ping_srv import proxy_ping_srv
 from payload_builder import decode_message
+import time
 
 
 def parse_arguments():
@@ -44,7 +45,7 @@ def main():
             msj_decoded = decode_message(msj)
 
             if msj_decoded[0] == PING:
-                direct_ping_srv(conn, verbose)
+                direct_ping_srv(conn, verbose, int(msj_decoded[1]))
 
             elif msj_decoded[0] == REVERSE:
                 reverse_ping_srv(conn, int(msj_decoded[1]), verbose)

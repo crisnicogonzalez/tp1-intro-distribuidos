@@ -37,8 +37,8 @@ def show_statistics(measures, total_time, count):
     print("--- 127.0.0.1 ping statistics ---")
     print("{} packets transmitted, {} received, {}% packet loss, time {} ms".format(count, len(measures), (1 - len(measures)/count)*100, total_time))
 
-    if ( len(measures) == 0 ):
-        #All packets are lost, it doesn't show statistics:
+    # All packets are lost, it doesn't show statistics:
+    if len(measures) == 0:
         exit(0)
 
     print("rtt min / avg / max / mdev = {:.3f}/{:.3f}/{:.3f}/{:.3f} ms".format(min(measures), statistics.mean(measures), max(measures),statistics.stdev(measures) if len(measures) > 1 else 0.00))
@@ -81,13 +81,14 @@ def show_address_messages(args, soc):
 
 def exec_protocol(args, soc, count):
     if args.reverse:
-        return reverse_ping(soc, count, args.quiet)
+        return reverse_ping(soc, count, args.quiet, args.verbose)
 
     elif args.proxy:
-        return proxy_ping(soc, count, args.dest, args.quiet)
+        return proxy_ping(soc, count, args.dest, args.quiet, args.verbose)
 
     elif args.ping:
-        return direct_ping(soc, count, args.quiet)
+        return direct_ping(soc, count, args.quiet, args.verbose)
+
 
 def check_args(args):
     if args.count <= 0:
@@ -99,7 +100,6 @@ def check_args(args):
         exit(1)
 
     return
-
 
 
 def main():
@@ -115,7 +115,12 @@ def main():
     count = args.count
 
     measures = exec_protocol(args, soc, count)
-    send_msg(soc, STOP)
+
+    try:
+        send_msg(soc, STOP)
+
+    except Exception:
+        pass
 
     end = time.time()
     diff = end - start
