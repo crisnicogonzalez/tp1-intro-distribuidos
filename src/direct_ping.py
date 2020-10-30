@@ -1,22 +1,21 @@
 import time
 from socket_client import send_ping, print_info_message, print_packet_loss_message
 
-def direct_ping(socket, counts, quiet):
+def direct_ping(sock, counts, quiet):
 
     # return list of rtts
     rtts = []
 
-    print(socket.timeout)
-
     for seq in range(1, counts + 1):
         try:
-            response = send_ping(socket)
+            response = send_ping(sock, seq)
             rtts.append(response)
             print_info_message(seq, response, quiet)
 
-        except Exception as e:
-            print_packet_loss_message(seq, e, quiet)
+        except Exception:
+            print_packet_loss_message(seq, quiet)
 
         time.sleep(1)
+
 
     return rtts

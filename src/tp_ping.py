@@ -115,6 +115,7 @@ def main():
     count = args.count
 
     measures = exec_protocol(args, soc, count)
+
     send_msg(soc, STOP)
 
     end = time.time()
