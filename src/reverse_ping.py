@@ -4,18 +4,20 @@ from socket_client import print_info_message, print_packet_loss_message, send_ms
 import time
 
 
-def wait_ping_msg(socket, seq, verbose):
-    if verbose:
+def wait_ping_msg(socket, seq, quiet):
+    if not quiet:
         print("Wait ping message")
     received_ping_msg = False
     while not received_ping_msg:
         msg = recv_msg(socket)
         received_ping_msg = msg.startswith(PING) and decode_ping_message(msg)[1] == seq
-    if verbose:
+    if not quiet:
         print("Ping message received")
 
 
-def send_pong_msg(socket, seq):
+def send_pong_msg(socket, seq, quiet):
+    if not quiet:
+        print("Sending pong message")
     send_msg(socket, build_pong_msg(seq))
 
 

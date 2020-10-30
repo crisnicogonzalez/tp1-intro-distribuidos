@@ -37,8 +37,8 @@ def show_statistics(measures, total_time, count):
     print("--- 127.0.0.1 ping statistics ---")
     print("{} packets transmitted, {} received, {}% packet loss, time {} ms".format(count, len(measures), (1 - len(measures)/count)*100, total_time))
 
-    if ( len(measures) == 0 ):
-        #All packets are lost, it doesn't show statistics:
+    # All packets are lost, it doesn't show statistics:
+    if len(measures) == 0:
         exit(0)
 
     print("rtt min / avg / max / mdev = {:.3f}/{:.3f}/{:.3f}/{:.3f} ms".format(min(measures), statistics.mean(measures), max(measures),statistics.stdev(measures) if len(measures) > 1 else 0.00))
@@ -89,6 +89,7 @@ def exec_protocol(args, soc, count):
     elif args.ping:
         return direct_ping(soc, count, args.quiet)
 
+
 def check_args(args):
     if args.count <= 0:
         print("ping: bad number of packets to transmit")
@@ -99,7 +100,6 @@ def check_args(args):
         exit(1)
 
     return
-
 
 
 def main():
